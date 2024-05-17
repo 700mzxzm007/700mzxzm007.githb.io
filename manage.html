@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理页面</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link rel="stylesheet" href="mangepage.css">
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+    <script src="managejs.js" defer></script>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">管理页面</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#" onclick="showSection('staff-management')">抽奖人员管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showSection('prize-management')">抽奖奖品管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showSection('rules-settings')">抽奖规则设置</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showSection('lottery')">立即抽奖</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <div>
+        <div id="staff-management" class="section">
+            <h2 class="mt-4 containerco">抽奖人员管理</h2>
+            <form id="staff-form">
+                <div class="mb-3">
+                    <label for="staffName" class="form-label">姓名</label>
+                    <input type="text" class="form-control" id="staffName" placeholder="输入姓名">
+                </div>
+                <div class="mb-3">
+                    <label for="staffPhone" class="form-label">手机号</label>
+                    <input type="text" class="form-control" id="staffPhone" placeholder="输入手机号">
+                </div>
+                <button type="button" class="btn btn-primary" onclick="addStaff()">添加人员</button>
+            </form>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">姓名</th>
+                        <th scope="col">手机号</th>
+                        <th scope="col">操作</th>
+                    </tr>
+                </thead>
+                <tbody id="staffList">
+                </tbody>
+            </table>
+        </div>
+
+        <div id="prize-management" class="section" style="display: none;">
+            <h2 class="mt-4 containerco">抽奖奖品管理</h2>
+            <form id="prize-form">
+                <div class="mb-3">
+                    <label for="prizeName" class="form-label">奖品名称</label>
+                    <input type="text" class="form-control" id="prizeName" placeholder="输入奖品名称">
+                </div>
+                <div class="mb-3">
+                    <label for="prizeImage" class="form-label">奖品图片</label>
+                    <input type="file" class="form-control" id="prizeImage">
+                </div>
+                <button type="button" class="btn btn-primary" onclick="addPrize()">添加奖品</button>
+            </form>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">奖品名称</th>
+                        <th scope="col">图片</th>
+                        <th scope="col">操作</th>
+                    </tr>
+                </thead>
+                <tbody id="prizeList">
+                </tbody>
+            </table>
+        </div>
+
+        <div id="lottery" class="section" style="display: none;">
+            <h2 class="mt-4">抽奖功能</h2>
+            <button type="button" class="btn btn-success containerco" onclick="drawLottery()">开始抽奖</button>
+            <div class="mt-4" id="winnerList">
+            </div>
+            <img src="scenery.webp" class="image">
+        </div>
+
+        <div id="rules-settings" class="section" style="display: none;">
+            <h2 class="mt-4 containerco">抽奖规则设置</h2>
+            <form id="rules-form">
+                <div class="mb-3">
+                    <label for="staffSelection" class="form-label">抽奖人员选择</label>
+                    <select class="form-select" id="staffSelection" onchange="handleStaffSelectionChange()">
+                        <option value="现场人员">现场人员扫码报名</option>
+                        <option value="已导入">从已导入的抽奖人员中选择</option>
+                    </select>
+                </div>
+                <div id="qr-code-container" style="display: none;">
+                    <div id="qrcode"></div>
+                    <button class="btn btn-secondary mt-2" onclick="downloadQRCode()">导出二维码</button>
+                </div>
+                <div id="imported-staff-container" style="display: none;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">选择</th>
+                                <th scope="col">姓名</th>
+                                <th scope="col">手机号</th>
+                            </tr>
+                        </thead>
+                        <tbody id="importedStaffList">
+                        </tbody>
+                    </table>
+                </div>
+                <div id="prize-settings-container">
+                    <div class="mb-3 prize-settings">
+                        <label for="prizeType" class="form-label">奖项</label>
+                        <select class="form-select" id="prizeType" name="prizeType[]">
+                            <option value="一等奖">一等奖</option>
+                            <option value="二等奖">二等奖</option>
+                            <option value="三等奖">三等奖</option>
+                            <option value="安慰奖">安慰奖</option>
+                        </select>
+                        <label for="prizeQuantity" class="form-label">数量</label>
+                        <input type="number" class="form-control" id="prizeQuantity" name="prizeQuantity[]" placeholder="数量">
+                        <label for="prizeItem" class="form-label">奖品</label>
+                        <input type="text" class="form-control" id="prizeItem" name="prizeItem[]" placeholder="奖品">
+                        <button type="button" class="btn btn-danger mt-2" onclick="removePrizeSetting(this)">删除</button>
+                        <button type="button" class="btn btn-warning mt-2" onclick="editPrizeSetting(this)">编辑</button>
+                    </div>
+                </div>
+                
+                <button type="button" class="btn btn-primary" onclick="addPrizeSetting()">添加奖品设置</button>
+                <div class="mb-3">
+                    <label for="lotteryMode" class="form-label">抽奖模式选择</label>
+                    <select class="form-select" id="lotteryMode">
+                        <option value="mode1">确定奖项后，随机抽取获奖人</option>
+                        <option value="mode2">确定奖项后，随机抽取获奖人员，但排除已获奖人员</option>
+                        <option value="mode3">随机抽取获奖人员后，随机抽取奖品</option>
+                        <option value="mode4">随机抽取获奖人员后，随机抽取奖品但排除已抽取完毕奖品</option>
+                    </select>
+                </div>
+                <button type="button" class="btn btn-primary" onclick="saveSettings()">暂存</button>
+                <button type="button" class="btn btn-success" onclick="submitSettings()">提交</button>
+            </form>
+        </div>
+    </div>
+
+
+
+    
+
+</body>
+</html>

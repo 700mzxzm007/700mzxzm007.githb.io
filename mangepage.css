@@ -1,0 +1,115 @@
+
+
+  .registration-form {
+    position: relative; 
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 8px;  
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    width: 90%;    
+    max-width: 500px; 
+  }
+
+.container {
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center;    
+    height: 100vh;       
+}
+
+.containerco{
+    display: flex;
+    flex-direction: column; 
+    align-items: center;        
+    
+}
+
+.containerword {
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center;    
+    height: 100vh;       
+}
+
+.containerrow{
+    display: flex;
+    flex-direction: column;  
+    justify-content: center; 
+}
+
+.custom-label-size {
+    font-size: 20px; 
+}
+
+.nounderline{
+    text-decoration: none;
+    color:dodgerblue;
+
+}
+
+.yzml{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.yamlhtml {
+    width: 100%;
+    height: 100%;
+    font-size: 16px;
+}
+
+.code {
+    padding-top: 50px;
+    width: 400px;
+    margin: 0 auto;
+}
+
+
+.input-val {
+    width: 295px;
+    background: #ffffff;
+    height: 2.8rem;
+    padding: 0 2%;
+    border-radius: 5px;
+    border: none;
+    border: 1px solid rgba(0, 0, 0, .2);
+    font-size: 1.0625rem;
+}
+
+#canvas {
+    float: right;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.image{
+    width:20%;
+    height: 300px;
+}
+
+#prize-settings-container .prize-settings {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* 控制元素之间的间距 */
+  }
+  
+  #prize-settings-container .prize-settings .form-label {
+    margin-bottom: 0; /* 移除标签的下边距 */
+  }
+  
+  #prize-settings-container .prize-settings .form-control, 
+  #prize-settings-container .prize-settings .form-select {
+    width: auto; /* 使输入框和选择框的宽度自适应内容 */
+    flex: 1; /* 使输入框和选择框在容器中均匀分布 */
+  }
+  
+  #prize-settings-container .prize-settings .btn {
+    margin-top: 0; /* 移除按钮的上边距 */
+  }
+  
